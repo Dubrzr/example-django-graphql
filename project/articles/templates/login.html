@@ -1,0 +1,25 @@
+<p>Login</p>
+<form action="{% url 'login' %}" class="form-horizontal" method="post">{% csrf_token %}
+    <input name="username" type="text" placeholder="Username">
+    <input name="password" type="password" placeholder="Password">
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<ul id="test"></ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.open("POST", "http://localhost:55897/graphql");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.onload = function () {
+            const result = xhr.response;
+            console.log('data returned:', xhr.response);
+            result.data.articles.forEach(function(element) {
+                $("#test").append('<li>' + element.name + ' (author: ' + element.author.firstname + ' ' + element.author.firstname + ')</li>')
+            });
+        };
+        xhr.send(JSON.stringify({query: "{articles{id, name, author{firstname, lastname}}}"}));
+</script>

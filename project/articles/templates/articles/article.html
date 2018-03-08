@@ -1,0 +1,29 @@
+<h1>Voici l'article {{year}}</h1>
+
+<p>Create Author</p>
+<form action="{% url 'create_author' %}" class="form-horizontal" method="post">{% csrf_token %}
+    <input name="firstname" type="text">
+    <input name="lastname" type="text">
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+<p>Create Article</p>
+<form action="{% url 'create_article' %}" class="form-horizontal" method="post">{% csrf_token %}
+    <input name="number" type="range" min="-10" max="10">
+    <input name="name" type="text">
+    <select name="author">
+        {% for author in authors %}
+            <option value="{{ author.get_name }}">{{ author.get_name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<a href="{% url 'login' %}">Access the login page</a>
+
+<ul>
+    {% for article in articles %}
+        <li>{{ article.number }}: {{ article.name }} (author={{ article.author.get_name }})</li>
+    {% endfor %}
+</ul>
